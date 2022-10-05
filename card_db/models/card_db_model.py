@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import Table
 
 #duomnbazes sukurimas
 engine = create_engine('sqlite:///MTG_card.db')
@@ -15,9 +16,9 @@ class MtgCard(Base):
     converted_mana_cost = Column("CMC", Integer)
     quantity = Column("Quantity", Integer)
     type_id = Column(Integer, ForeignKey("type.id"))
-    types = relationship("Type")
+    types = relationship("type")
     color_id  = Column(Integer, ForeignKey("color.id"))
-    colors = relationship("Color")
+    colors = relationship("color")
 
 
     def __init__(self, name, type_id, mana_cost, converted_mana_cost, quantity):
@@ -58,12 +59,20 @@ class Color(Base):
     def __repr__(self):
         return f"{self.color_name}"
 
+link_table = Table(
+    "association",
+    Base.metadata,
+    Column("Deck_id", ForeignKey("Deck.id")),
+    Column("Card_id", ForeignKey("Card.id")),
+)
+
+
 class Deck(Base):
     __tablename__ = "Deck"
     id = Column(Integer, primary_key=True)
     name = Column("Name", String)
     format_name = Column("Format", String)
-    cards = relationship('MtgCard', secondary=link_table)
+    cards = relationship('Card', secondary=link_table)
 
 
     def __init__(self, name, format_name):
@@ -74,11 +83,7 @@ class Deck(Base):
     def __repr__(self):
         return f"{self.name} {self.format_name}"
 
-link_table = Table(
-    "association",
-    Base.metadata,
-    Column("Deck_id", ForeignKey("Deck.id")),
-    Column("MtgCard_id", ForeignKey("MtgCard.id")),
-)
+
+
 
 Base.metadata.create_all(engine)
