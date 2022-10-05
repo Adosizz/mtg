@@ -6,37 +6,36 @@ from sqlalchemy.orm import relationship
 engine = create_engine('sqlite:///MTG_card.db')
 Base = declarative_base()
 
-class MTGcard(Base):
+class MtgCard(Base):
     __tablename__ = "Card"
     id = Column(Integer, primary_key=True)
     name = Column("Name", String)
-    type = Column("Type", String)
     subtype = Column("Subtype", String)
-    mcost = Column("Mana Cost", String)
-    cmc = Column("CMC", Integer)
-    quant = Column("Quantity", Integer)
+    mana_cost = Column("Mana Cost", String)
+    converted_mana_cost = Column("CMC", Integer)
+    quantity = Column("Quantity", Integer)
     type_id = Column(Integer, ForeignKey("type.id"))
     types = relationship("Type")
     color_id  = Column(Integer, ForeignKey("color.id"))
     colors = relationship("Color")
 
 
-    def __init__(self, name, type_id, mcost, cmc, quant):
+    def __init__(self, name, type_id, mana_cost, converted_mana_cost, quantity):
         self.name = name
         self.type_id = type_id
-        self.mcost = mcost
-        self.quant = quant
-        self.cmc = cmc
+        self.mana_cost = mana_cost
+        self.quantity = quantity
+        self.converted_mana_cost = converted_mana_cost
 
 
     def __repr__(self):
-        return f"{self.name} {self.type}, {self.mcost},{self.cmc} kiekis {self.quant} "
+        return f"{self.name} {self.type}, {self.mana_cost},{self.converted_mana_cost} kiekis {self.quantity} "
 
 class Type(Base):
     __tablename__ = 'type'
     id = Column(Integer, primary_key=True)
     type_name = Column('Type', String)
-    cards_t = relationship("MTGcard")
+
 
     def __init__(self, type_name):
         self.type_name = type_name
@@ -49,7 +48,7 @@ class Color(Base):
     __tablename__ = "color"
     id = Column(Integer, primary_key=True)
     color_name = Column('Color', String)
-    color_c = relationship("MTGcard")
+
 
 
     def __init__(self, color_name):
@@ -63,34 +62,23 @@ class Deck(Base):
     __tablename__ = "Deck"
     id = Column(Integer, primary_key=True)
     name = Column("Name", String)
-    format_ = Column("Format", String)
-    format_id = Column(Integer, ForeignKey("format.id"))
-    formats = relationship("Format")
+    format_name = Column("Format", String)
+    cards = relationship('MtgCard', secondary=link_table)
 
-    def __init__(self, name, format_, format_id ):
+
+    def __init__(self, name, format_name):
         self.name = name
-        self.format_ = format_
-        self.format_id = format_id
-
-    def __repr__(self):
-        return f"{self.name} {self.format_}"
-
-class Format(Base):
-    __tablename__ = "format"
-    id = Column(Integer, primary_key=True)
-    format_ = Column("Format", String)
-    deck_f = relationship("Deck")
-
-    def __init__(self, format_):
-        self.format_ = format_
+        self.format_name = format_name
 
 
     def __repr__(self):
-        return f"{self.format_}"
+        return f"{self.name} {self.format_name}"
 
-
-
-
-
+link_table = Table(
+    "association",
+    Base.metadata,
+    Column("Deck_id", ForeignKey("Deck.id")),
+    Column("MtgCard_id", ForeignKey("MtgCard.id")),
+)
 
 Base.metadata.create_all(engine)

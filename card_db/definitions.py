@@ -1,5 +1,5 @@
 from sqlalchemy.orm import sessionmaker
-from card_db_model import engine, MTGcard, Type
+from models.card_db_model import engine, MTGcard, Type
 from mtgsdk import Card
 import urllib.request
 from PIL import Image

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import sessionmaker
-from card_db_model import engine, Type, Color, Format
+from models.card_db_model import engine, Type, Color
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -42,23 +42,6 @@ session.add(color6)
 
 session.commit()
 
-#Formatu pridejimas
-
-format1 = Format("Standart")
-format2 = Format("Modern")
-format3 = Format("Historic")
-format4 = Format("Legacy")
-format5 = Format("Vintage")
-format6 = Format("Commander")
-
-session.add(format1)
-session.add(format2)
-session.add(format3)
-session.add(format4)
-session.add(format5)
-session.add(format6)
-
-session.commit()
 
 
 
