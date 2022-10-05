@@ -16,9 +16,9 @@ class MtgCard(Base):
     converted_mana_cost = Column("CMC", Integer)
     quantity = Column("Quantity", Integer)
     type_id = Column(Integer, ForeignKey("type.id"))
-    types = relationship("type")
+    types = relationship("Type")
     color_id  = Column(Integer, ForeignKey("color.id"))
-    colors = relationship("color")
+    colors = relationship("Color")
 
 
     def __init__(self, name, type_id, mana_cost, converted_mana_cost, quantity):
@@ -72,7 +72,7 @@ class Deck(Base):
     id = Column(Integer, primary_key=True)
     name = Column("Name", String)
     format_name = Column("Format", String)
-    cards = relationship('Card', secondary=link_table)
+    cards = relationship('MtgCard', secondary=link_table)
 
 
     def __init__(self, name, format_name):
