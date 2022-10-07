@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from card_db_model import engine, Type, Color
-from sqlalchemy.sql.schema import Table
+
 
 
 Session = sessionmaker(bind=engine)

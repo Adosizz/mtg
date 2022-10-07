@@ -1,8 +1,8 @@
 from mtgsdk import Card
 from urllib import request
-from PIL import Image
+from PIL import Image, ImageTk
 import sqlite3
-from card_db.definitions import *
+from card_db.definitions import type_check
 
 def search_card_image(arg, lbl):
     cards = Card.where(name=arg).all()

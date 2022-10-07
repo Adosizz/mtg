@@ -1,6 +1,5 @@
-from tkinter import *
-from tkinter import ttk
-from ui_def import *
+from tkinter import ttk, Frame, Toplevel, Label, Entry, Button
+from ui_def import search_card_image, add_to_collection, query_database
 from PIL import Image, ImageTk
 
 

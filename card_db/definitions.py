@@ -1,9 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from models.card_db_model import engine, MtgCard, Type
-from mtgsdk import Card
-from urllib import request
-from PIL import Image
-import os
+
 
 
 
