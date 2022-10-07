@@ -1,43 +1,18 @@
 from sqlalchemy.orm import sessionmaker
-from models.card_db_model import engine, MTGcard, Type
+from models.card_db_model import engine, MtgCard, Type
 from mtgsdk import Card
-import urllib.request
+from urllib import request
 from PIL import Image
 import os
+
+
 
 Session = sessionmaker(bind=engine)
 session = Session()
 
-def add_cardbyimage():
-    ivest = str(input("Įveskite pilną kortos pavadinimą"))
-    cards = Card.where(name=ivest).all()
-    for card in (element for element in cards if element.image_url is not None):
-        urllib.request.urlretrieve(f'{card.image_url}', "image.png")
-        img = Image.open("image.png")
-        img.show()
-    print("Ar tai jūsų korta?\n 1-taip\n 2-ne")
-    ivest1 = int(input(''))
-    if ivest1 == 1:
-        os.remove("image.png")
-        ivest2 = int(input("Įveskite šios kortos kiekį"))
-        for card in cards:
-            a = card.type.split(' — ', 1)[0]
-            b_type = type_check(remove_leg(a))
-            card1= MTGcard(card.name, b_type, card.mana_cost, card.cmc, ivest2)
-        session.add(card1)
-        session.commit()
-        print("Korta pridėta")
-    else:
-        ivest3 = int(input("Ką norite daryti toliau?\1-Bandyti iš naujo\2-Įvesti kortą pačiam\n3-Grįžti į pagrindinį menu"))
-        if ivest3 == 1:
-            print("Pradėkite iš naujo\nĮsitikinkite, kad gerai įrašėte pavadinimą")
-            add_cardbyimage()
-        elif ivest3 == 2:
-            add_manual()
-        elif ivest3 == 3:
-            main_menu()
 
 
+'''*************************************'''
 def type_check(arg):
     if arg == 'Land':
         return 1
@@ -90,7 +65,7 @@ def add_manual():
                     "U-Blue\n G-Green")
     x_cmc= count_cmc(x_manac)
     ivest2 = int(input("Įveskite šios kortos kiekį"))
-    card1 = MTGcard(ivest, x_type, x_manac, x_cmc, ivest2)
+    card1 = MtgCard(ivest, x_type, x_manac, x_cmc, ivest2)
     session.add(card1)
     session.commit()
     print("Korta pridėta")
@@ -104,14 +79,14 @@ def count_cmc(arg):
 
 def filterby_type():
     x = choose_type()
-    y=session.query(MTGcard).join(Type).filter(Type.id == x).all()
+    y=session.query(MtgCard).join(Type).filter(Type.id == x).all()
     for elem in y:
         print(elem.name, elem.mcost, elem.quant)
 
 def show_cards():
     a = int(input("1-Rodyti visas kortas\n2Rodyti pasirinktą tipą"))
     if a == 1:
-        y = session.query(MTGcard).all()
+        y = session.query(MtgCard).all()
         for elem in y:
             print(elem.name, elem.mcost, elem.quant)
     else:
@@ -133,4 +108,4 @@ def main_menu():
 
 
 
-main_menu()
+#main_menu()

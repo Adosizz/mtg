@@ -8,7 +8,7 @@ engine = create_engine('sqlite:///MTG_card.db')
 Base = declarative_base()
 
 class MtgCard(Base):
-    __tablename__ = "Card"
+    __tablename__ = "MtgCard"
     id = Column(Integer, primary_key=True)
     name = Column("Name", String)
     subtype = Column("Subtype", String)
@@ -72,6 +72,8 @@ class Deck(Base):
     id = Column(Integer, primary_key=True)
     name = Column("Name", String)
     format_name = Column("Format", String)
+    description = Column("Description", String)
+    date = Column("Date_created", String)
     cards = relationship('MtgCard', secondary=link_table)
 
 
