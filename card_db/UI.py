@@ -62,7 +62,7 @@ def open_add_card():
     card_back_label.image = back_image
     card_back_label.grid(rowspan=7, column=2)
 
-def open_deck():
+#def open_deck():
 
 
 
