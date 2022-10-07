@@ -38,14 +38,14 @@ def select_item_deck():
     return values
 
 
-#def query_database():
-#   conn = sqlite3.connect('models/MTG_card.db')
-#    c = conn.cursor()
-#    c.execute("SELECT * FROM Deck")
-#    records = c.fetchall()
-#    count = 0
-#    for record in records:
-#        deck_box.insert('', tk.END, values=record)
-#        count += 1
-#    conn.commit()
-#    conn.close()
+def query_database():
+    conn = sqlite3.connect('models/MTG_card.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM Deck")
+    records = c.fetchall()
+    count = 0
+    for record in records:
+        deck_box.insert('', tk.END, values=record)
+        count += 1
+    conn.commit()
+    conn.close()
