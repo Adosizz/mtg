@@ -33,10 +33,14 @@ def add_to_collection(arg, arg2):
     os.remove("image.PNG")
 
 
-def select_item_deck():
-    selected = deck_box.focus()
-    values = deck_box.item(selected, 'values')
+def select_item_deck(arg):
+    selected = arg.focus()
+    values = arg.item(selected, 'values')
     return values
 
-#def insercardlist():
+def showdecks():
+
+
+
+
 

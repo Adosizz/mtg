@@ -63,7 +63,7 @@ link_table = Table(
     "association",
     Base.metadata,
     Column("Deck_id", ForeignKey("Deck.id")),
-    Column("MtgCard_id", ForeignKey("MtgCard.id")),
+    Column("Card_id", ForeignKey("MtgCard.id")),
 )
 
 
