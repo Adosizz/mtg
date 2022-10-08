@@ -1,5 +1,5 @@
-from tkinter import ttk, Frame, Toplevel, Label, Entry, Button, Tk, W
-from ui_def import search_card_image, add_to_collection, query_database
+from tkinter import ttk, Frame, Toplevel, Label, Entry, Button, Tk, W, VERTICAL
+from ui_def import search_card_image, add_to_collection
 from PIL import Image, ImageTk
 
 
@@ -64,43 +64,31 @@ def open_add_card():
 #def open_deck():
 
 
-
-
-
-
-
 #main window
-
-
 
 
 ##Treeviews
 
-collection_box = ttk.Treeview(collection_tree_frame, columns=("Nb","Name", "Type", "Mana Cost", "Quantity"),
+collection_box = ttk.Treeview(collection_tree_frame, columns=("Name", "Type", "Mana Cost", "Quantity"),
                               show='headings', selectmode='browse')
-for nr, col_heading in enumerate(["Nb","Name", "Type", "Mana Cost", "Quantity"], 1):
+for nr, col_heading in enumerate(["Name", "Type", "Mana Cost", "Quantity"], 1):
     collection_box.column(f"# {nr}", anchor=W)
     collection_box.heading(f"# {nr}", text=col_heading, anchor=W)
 collection_box.grid(row=4, columnspan=3)
 
-deck_box = ttk.Treeview(deck_tree_frame, columns=("Nb", "name", "format", "description", "Date_created"),
+
+
+deck_box = ttk.Treeview(deck_tree_frame, columns=( "name", "format", "description", "Date_created"),
                               show='headings', selectmode='browse')
-for nr, col_heading in enumerate(["Nb", "name", "format", "description", "Date_created"], 1):
+for nr, col_heading in enumerate(["name", "format", "description", "Date_created"], 1):
     deck_box.column(f"# {nr}", anchor=W)
     deck_box.heading(f"# {nr}", text=col_heading, anchor=W)
 deck_box.grid(row=8, columnspan=3)
 
-##scrollbars
-'''
-collection_scroll = ttk.Scrollbar(collection_tree_frame, orient=VERTICAL, command=collection_scroll.yview)
-collection_scroll.configure(yscroll=collection_scroll.set)
-collection_scroll.grid(row=0, column=1, sticky='ns')
 
-deck_scroll = ttk.Scrollbar(deck_tree_frame, orient=VERTICAL, command=deck_scroll.yview)
-deck_scroll.configure(yscroll=deck_scroll.set)
-deck_scroll.grid(row=0, column=1, sticky='ns')
 
-'''
+
+
 
 
 ##Labels, Buttons, search bars
@@ -129,7 +117,12 @@ search_label1.grid(row=7,column=0)
 collection_search.grid(row=3,column=1)
 deck_search.grid(row=7,column=1)
 
-#query_database()
+
+def on_row_click(self, event):
+    selection = self.treeview.focus()
+    item = self.treeview.item(selection)
+    index = item['text']
+
 
 root.mainloop()
 
