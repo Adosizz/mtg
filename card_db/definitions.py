@@ -3,10 +3,19 @@ from models.card_db_model import engine, MtgCard, Type
 
 
 
-
-Session = sessionmaker(bind=engine)
-session = Session()
-
+def checkcolor(arg):
+    if arg == 'Black':
+        return 1
+    elif arg == 'White':
+        return 2
+    elif arg == 'Blue':
+        return 3
+    elif arg == 'Red':
+        return 4
+    elif arg == 'Green':
+        return 5
+    elif arg == 'None':
+        return 6
 
 
 '''*************************************'''
@@ -25,9 +34,9 @@ def type_check(arg):
         return 6
     elif arg == 'Sorcery':
         return 7
-    else:
-        x = arg.split(' ', 1)
-        type_check(x[1])
+#    else:
+#       x = arg.split(' ', 1)
+#        type_check(x[1])
 
 def remove_leg(arg):
     if arg.split(' ', 1)[0] == 'Legendary':
@@ -80,14 +89,6 @@ def filterby_type():
     for elem in y:
         print(elem.name, elem.mcost, elem.quant)
 
-def show_cards():
-    a = int(input("1-Rodyti visas kortas\n2Rodyti pasirinktą tipą"))
-    if a == 1:
-        y = session.query(MtgCard).all()
-        for elem in y:
-            print(elem.name, elem.mcost, elem.quant)
-    else:
-        filterby_type()
 
 def main_menu():
     while True:

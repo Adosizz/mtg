@@ -1,10 +1,8 @@
 from sqlalchemy.orm import sessionmaker
-from card_db_model import engine, Type, Color
+from card_db_model import engine, Type, Color, session
 
 
 
-Session = sessionmaker(bind=engine)
-session = Session()
 
 
 # tipų pridėjimas

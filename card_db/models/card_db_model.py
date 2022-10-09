@@ -1,19 +1,22 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.schema import Table
 
 #duomnbazes sukurimas
+
 engine = create_engine('sqlite:///MTG_card.db')
 Base = declarative_base()
+Session = sessionmaker(engine)
+session = Session(bind=engine)
+
 
 class MtgCard(Base):
     __tablename__ = "MtgCard"
     id = Column(Integer, primary_key=True)
     name = Column("Name", String)
     subtype = Column("Subtype", String)
-    mana_cost = Column("Mana Cost", String)
-    converted_mana_cost = Column("CMC", Integer)
+    mana_cost = Column("Mana_Cost", String)
     quantity = Column("Quantity", Integer)
     type_id = Column(Integer, ForeignKey("type.id"))
     types = relationship("Type")
@@ -21,12 +24,13 @@ class MtgCard(Base):
     colors = relationship("Color")
 
 
-    def __init__(self, name, type_id, mana_cost, converted_mana_cost, quantity):
+    def __init__(self, name, type_id, mana_cost, quantity, subtype, color_id):
         self.name = name
         self.type_id = type_id
         self.mana_cost = mana_cost
         self.quantity = quantity
-        self.converted_mana_cost = converted_mana_cost
+        self.subtype = subtype
+        self.color_id = color_id
 
 
     def __repr__(self):
